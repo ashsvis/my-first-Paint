@@ -48,6 +48,9 @@
     <Compile Include="Services\ActionCommand.cs" />
     <Compile Include="Services\UndoableCommand.cs" />
     <Compile Include="Services\UndoRedoManager.cs" />
+    <Compile Include="Interfaces\IMouseHandler.cs" />
+    <Compile Include="Styles\PenStyle.cs" />
+    <Compile Include="Tools\PenTool.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
