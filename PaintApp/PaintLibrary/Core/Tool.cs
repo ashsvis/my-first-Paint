@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace PaintLibrary.Core
 {
-
     /// <summary>
     /// Tool to change layer
     /// </summary>
@@ -25,6 +24,7 @@ namespace PaintLibrary.Core
         /// </summary>
         internal virtual void Render(Graphics gr, Document doc)
         {
+            gr.DrawImage(doc.Layer, Point.Empty);
         }
     }
 }
