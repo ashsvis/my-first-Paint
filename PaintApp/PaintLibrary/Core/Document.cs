@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using PaintLibrary.Services;
+//using System.Drawing.Imaging;
+//using System.IO;
+//using PaintLibrary.Services;
 
 namespace PaintLibrary.Core
 {
     /// <summary>
     /// Document
     /// </summary>
+    [Serializable]
     public class Document
     {
         /// <summary>
@@ -64,30 +61,51 @@ namespace PaintLibrary.Core
             Tool = tool;
         }
 
-        /// <summary>
-        /// Create restore point for Undo/Redo manager
-        /// </summary>
-        internal void CreateUndoPoint(string toolName)
+        ///// <summary>
+        ///// Create restore point for Undo/Redo manager
+        ///// </summary>
+        //internal void CreateUndoPoint(string toolName)
+        //{
+        //    //make clone of current Layer
+        //    var ms = new MemoryStream();
+        //    Layer.Save(ms, ImageFormat.Png);
+
+        //    //create undo action
+        //    Action undo = () =>
+        //    {
+        //        ms.Position = 0;
+        //        if (Layer != null)
+        //            Layer.Dispose();
+        //        Layer = new Bitmap(ms);
+        //    };
+
+        //    //create undo command (redo is not supported)
+        //    var command = new ActionCommand(undo, null) {Name = toolName};
+
+        //    //push command to undo/redo manager
+        //    UndoRedoManager.Instance.Add(command);
+        //}
+
+        internal void OnStartOperation(string toolName)
         {
-            //make clone of current Layer
-            var ms = new MemoryStream();
-            Layer.Save(ms, ImageFormat.Png);
-
-            //create undo action
-            Action undo = () =>
-            {
-                ms.Position = 0;
-                if (Layer != null)
-                    Layer.Dispose();
-                Layer = new Bitmap(ms);
-            };
-
-            //create undo command (redo is not supported)
-            var command = new ActionCommand(undo, null) {Name = toolName};
-
-            //push command to undo/redo manager
-            UndoRedoManager.Instance.Add(command);
+            LayerStartChanging(toolName);
         }
+
+        internal void OnFinishOperation()
+        {
+            LayerChanged();
+        }
+
+        /// <summary>
+        /// Слой будет изменён 
+        /// </summary>
+        public event Action<string> LayerStartChanging = delegate { };
+
+        /// <summary>
+        /// Слой был изменён 
+        /// </summary>
+        public event Action LayerChanged = delegate { };
+
     }
 
 }

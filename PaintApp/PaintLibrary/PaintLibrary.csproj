@@ -46,11 +46,15 @@
     <Compile Include="Core\Tool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActionCommand.cs" />
+    <Compile Include="Services\ObjectCloner.cs" />
     <Compile Include="Services\UndoableCommand.cs" />
+    <Compile Include="Services\UndoRedoController.cs" />
     <Compile Include="Services\UndoRedoManager.cs" />
     <Compile Include="Interfaces\IMouseHandler.cs" />
     <Compile Include="Styles\PenStyle.cs" />
+    <Compile Include="Styles\RibberStyle.cs" />
     <Compile Include="Tools\PenTool.cs" />
+    <Compile Include="Tools\RibberTool.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

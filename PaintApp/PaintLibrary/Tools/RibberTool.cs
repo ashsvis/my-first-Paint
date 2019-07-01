@@ -1,4 +1,5 @@
-﻿using PaintLibrary.Core;
+﻿using PaintApp.Services;
+using PaintLibrary.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -7,15 +8,15 @@ using System.Drawing.Drawing2D;
 namespace PaintLibrary.Tools
 {
     /// <summary>
-    /// Tool to drawing by Pen (100 hardness, straight lines)
+    /// Tool to erasing by Ribber (straight lines)
     /// </summary>
     [Serializable]
-    public class PenTool : Tool, IMouseHandler
+    public class RibberTool : Tool, IMouseHandler
     {
         /// <summary>
-        /// Style of drawing
+        /// Style of erasing
         /// </summary>
-        public PenStyle PenStyle { get; set; } = new PenStyle();
+        public RibberStyle RibberStyle { get; set; } = new RibberStyle();
 
         //key points of polyline
         private List<PointF> points = new List<PointF>();
@@ -31,19 +32,19 @@ namespace PaintLibrary.Tools
 
         private void RenderLine(Graphics gr)
         {
-            //draw line over Leyer
+            //erase line over Leyer
             if (points.Count > 1)
-            using (var pen = new Pen(PenStyle.Color, PenStyle.Width))
-                gr.DrawLines(pen, points.ToArray());
+                using (var pen = new Pen(RibberStyle.Color, RibberStyle.Width))
+                    gr.DrawLines(pen, points.ToArray());
         }
 
         internal override void Apply(Document doc)
         {
             //create undo point
-            // -- doc.CreateUndoPoint("Pen tool");
-            doc.OnStartOperation("Pen tool");
+            //doc.CreateUndoPoint("Ribber tool");
+            doc.OnStartOperation("Ribber tool");
 
-            //draw line on Layer 
+            //erase line on Layer 
             using (var gr = Graphics.FromImage(doc.Layer))
             {
                 gr.SmoothingMode = SmoothingMode.HighQuality;

@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\CursorFactory.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -71,6 +72,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="WorkAreaUserControl.resx">
       <DependentUpon>WorkAreaUserControl.cs</DependentUpon>
@@ -93,6 +95,12 @@
       <Project>{063A16B4-3EED-4621-981B-09F752C578EF}</Project>
       <Name>PaintLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\32.cur" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CRPENCIL.cur" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
