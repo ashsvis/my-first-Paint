@@ -45,6 +45,8 @@ namespace PaintApp.Services
         /// </summary>
         public void OnFinishOperation()
         {
+            _document.Changed = true;
+
             var afterOperationSnapshot = _document.DeepClone();
             var beforeOperationSnapshot = _snapshot; // захват переменной при выполнении тела акций
 

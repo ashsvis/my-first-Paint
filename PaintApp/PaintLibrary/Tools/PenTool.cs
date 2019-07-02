@@ -33,19 +33,19 @@ namespace PaintLibrary.Tools
         {
             //draw line over Leyer
             if (points.Count > 1)
-            using (var pen = new Pen(PenStyle.Color, PenStyle.Width))
-                gr.DrawLines(pen, points.ToArray());
+                using (var pen = new Pen(Color.FromArgb((int)(PenStyle.Hardness * 255), PenStyle.Color), PenStyle.Width))
+                    gr.DrawLines(pen, points.ToArray());
         }
 
         internal override void Apply(Document doc)
         {
-            //create undo point
-            // -- doc.CreateUndoPoint("Pen tool");
             doc.OnStartOperation("Pen tool");
 
             //draw line on Layer 
             using (var gr = Graphics.FromImage(doc.Layer))
             {
+                gr.CompositingMode = CompositingMode.SourceOver;
+                gr.CompositingQuality = CompositingQuality.HighQuality;
                 gr.SmoothingMode = SmoothingMode.HighQuality;
                 gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 RenderLine(gr);

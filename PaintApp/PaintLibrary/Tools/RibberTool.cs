@@ -34,21 +34,20 @@ namespace PaintLibrary.Tools
         {
             //erase line over Leyer
             if (points.Count > 1)
-                using (var pen = new Pen(RibberStyle.Color, RibberStyle.Width))
+                using (var pen = new Pen(Color.Transparent, RibberStyle.Width))
                     gr.DrawLines(pen, points.ToArray());
         }
 
         internal override void Apply(Document doc)
         {
-            //create undo point
-            //doc.CreateUndoPoint("Ribber tool");
             doc.OnStartOperation("Ribber tool");
 
             //erase line on Layer 
             using (var gr = Graphics.FromImage(doc.Layer))
             {
-                gr.SmoothingMode = SmoothingMode.HighQuality;
-                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                //gr.CompositingMode = CompositingMode.SourceOver;
+                //gr.SmoothingMode = SmoothingMode.HighQuality;
+                //gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
                 RenderLine(gr);
             }
 

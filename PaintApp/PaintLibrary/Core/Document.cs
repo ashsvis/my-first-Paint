@@ -106,6 +106,7 @@ namespace PaintLibrary.Core
         /// </summary>
         public event Action LayerChanged = delegate { };
 
+        public bool Changed { get; set; }
     }
 
 }
