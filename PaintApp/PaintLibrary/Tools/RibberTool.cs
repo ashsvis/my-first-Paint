@@ -1,5 +1,4 @@
-﻿using PaintApp.Services;
-using PaintLibrary.Core;
+﻿using PaintLibrary.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -27,15 +26,20 @@ namespace PaintLibrary.Tools
             base.Render(gr, doc);
 
             //render line
-            RenderLine(gr);
+            RenderLine(gr, RibberStyle.Color);
         }
 
-        private void RenderLine(Graphics gr)
+        private void RenderLine(Graphics gr, Color transparent)
         {
             //erase line over Leyer
             if (points.Count > 1)
-                using (var pen = new Pen(Color.Transparent, RibberStyle.Width))
+                using (var pen = new Pen(transparent, RibberStyle.Width))
+                {
+                    pen.LineJoin = LineJoin.Round;
+                    pen.StartCap = LineCap.Round;
+                    pen.EndCap = LineCap.Round;
                     gr.DrawLines(pen, points.ToArray());
+                }
         }
 
         internal override void Apply(Document doc)
@@ -45,11 +49,13 @@ namespace PaintLibrary.Tools
             //erase line on Layer 
             using (var gr = Graphics.FromImage(doc.Layer))
             {
-                //gr.CompositingMode = CompositingMode.SourceOver;
-                //gr.SmoothingMode = SmoothingMode.HighQuality;
-                //gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
-                RenderLine(gr);
+                gr.CompositingMode = CompositingMode.SourceCopy;
+                gr.CompositingQuality = CompositingQuality.HighSpeed;
+                gr.SmoothingMode = SmoothingMode.HighSpeed;
+                gr.PixelOffsetMode = PixelOffsetMode.HighSpeed;
+                RenderLine(gr, RibberStyle.Color);
             }
+            doc.Layer.MakeTransparent(RibberStyle.Color);
 
             //clear points
             points.Clear();

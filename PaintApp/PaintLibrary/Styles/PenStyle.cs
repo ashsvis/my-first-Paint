@@ -10,7 +10,8 @@ namespace PaintLibrary.Tools
     public class PenStyle
     {
         public Color Color { get; set; } = Color.Black;
-        public float Width { get; set; } = 1;
-        public float Hardness { get; set; } = 1;
+        public float Width { get; set; } = 1f;
+        public float Opacity { get; set; } = 1f;
+        public float Hardness { get; set; } = 1f;
     }
 }

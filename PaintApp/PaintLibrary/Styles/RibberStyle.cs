@@ -9,7 +9,9 @@ namespace PaintLibrary.Tools
     [Serializable]
     public class RibberStyle
     {
-        public Color Color { get; set; } = Color.White;
-        public float Width { get; set; } = 5;
+        public Color Color { get; set; } = Color.FromArgb(254, 1, 254); //Color.Magenta;
+        public float Width { get; set; } = 4f;
+        public float Opacity { get; set; } = 1f;
+        public float Hardness { get; set; } = 1f;
     }
 }

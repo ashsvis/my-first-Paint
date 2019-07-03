@@ -19,8 +19,6 @@ namespace PaintApp
         private Document doc;
         private UndoRedoController undoRedoController;
         private Tool tool;
-        private PenTool penTool;
-        private Image penToolColorImage;
         private string fileName = string.Empty;
         private readonly string caption;
         private readonly VersionInfo versionInfo;
@@ -33,6 +31,11 @@ namespace PaintApp
                 (decimal)versionInfo.Version / 10);
             CreateNewDocument();
         }
+
+        #region для карандаша
+
+        private PenTool penTool;
+        private Image penToolColorImage;
 
         /// <summary>
         /// Рабочий карандаш
@@ -73,6 +76,54 @@ namespace PaintApp
             tsbPencilColor.Invalidate();
         }
 
+        #endregion
+
+        #region для ластика
+
+        private RibberTool ribberTool;
+        private Image ribberToolColorImage;
+
+        private Image RibberToolColorImage
+        {
+            get
+            {
+                if (ribberToolColorImage == null)
+                {
+                    ribberToolColorImage = new Bitmap(16, 16);
+                    UpdateRibberToolColorImage();
+                }
+                return ribberToolColorImage;
+            }
+        }
+
+        private void UpdateRibberToolColorImage()
+        {
+            using (var gr = Graphics.FromImage(RibberToolColorImage))
+            using (var brush = new SolidBrush(RibberTool.RibberStyle.Color))
+            {
+                var rect = new Rectangle(0, 0, 15, 15);
+                rect.Inflate(-1, -1);
+                gr.FillRectangle(brush, rect);
+                gr.DrawRectangle(Pens.Black, rect);
+            }
+            tsbRibberColor.Invalidate();
+        }
+
+        /// <summary>
+        /// Рабочий ластик
+        /// </summary>
+        private RibberTool RibberTool
+        {
+            get
+            {
+                if (ribberTool == null)
+                    ribberTool = new RibberTool();
+                return ribberTool;
+            }
+        }
+
+        #endregion
+
         /// <summary>
         /// Создаём пустой документ
         /// </summary>
@@ -92,13 +143,20 @@ namespace PaintApp
             tsbPencil.Checked = true;
             foreach (var item in tsbPencilThickness.DropDownItems.Cast<ToolStripMenuItem>())
                 item.Checked = false;
-            tsmiThicknessOne.Checked = true;
+            tsmiPencilThicknessOne.Checked = true;
             penTool = null;
             tool = PenTool;
             doc.SetTool(tool);
             penToolColorImage = null;
             tsbPencilColor.Image = PenToolColorImage;
             tsbPencilColor.Invalidate();
+            foreach (var item in tsbRibberThickness.DropDownItems.Cast<ToolStripMenuItem>())
+                item.Checked = false;
+            tsmiRibberThicknessFour.Checked = true;
+            ribberTool = null;
+            ribberToolColorImage = null;
+            tsbRibberColor.Image = RibberToolColorImage;
+            tsbRibberColor.Invalidate();
             // очистка истории отмен
             UndoRedoManager.Instance.ClearHistory();
         }
@@ -125,6 +183,7 @@ namespace PaintApp
         /// <param name="e"></param>
         private void WorkArea_MouseMove(object sender, MouseEventArgs e)
         {
+            tsslLocation.Text = $"{e.Location.X}, {e.Location.Y}пкс";
             if (down)
             {
                 ((IMouseHandler)tool).OnMouseMove(doc, e.Location);
@@ -158,16 +217,16 @@ namespace PaintApp
 
             // https://rsdn.org/article/gdi/gdiplus2mag.xml
             // Устанавливает или отключает учет прозрачности при наложении растровых изображений.
-            graphics.CompositingMode = CompositingMode.SourceOver;
+            graphics.CompositingMode = CompositingMode.SourceOver; // должен быть CompositingMode.SourceOver для нашего случая
 
             // Управляет качеством расчета цветовых компонентов при наложении растров.
-            graphics.CompositingQuality = CompositingQuality.HighQuality;
+            graphics.CompositingQuality = CompositingQuality.HighSpeed;
 
             // Позволяет указать метод устранения ступенчатости (antialiasing) при выводе примитивов – линий и геометрических фигур.
-            graphics.SmoothingMode = SmoothingMode.HighQuality;
+            graphics.SmoothingMode = SmoothingMode.HighSpeed;
 
             // Задает метод учета смещения пикселов при интерполяции. Грубо говоря, определяет, являются ли координаты пикселов (или их центров) целыми числами при расчетах.
-            graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            graphics.PixelOffsetMode = PixelOffsetMode.HighSpeed;
 
             doc.Render(graphics);
         }
@@ -202,7 +261,7 @@ namespace PaintApp
             UncheckedTools();
             tsbPencil.Checked = true;
             workArea.Cursor = CursorFactory.GetCursor(UserCursor.Pencil);
-            tool = PenTool;
+            tool = PenTool; // указываем на рабочий караннаш
             doc.SetTool(tool);
         }
 
@@ -216,7 +275,7 @@ namespace PaintApp
             UncheckedTools();
             tsbRibber.Checked = true;
             workArea.Cursor = CursorFactory.GetCursor(UserCursor.Ribber);
-            tool = new RibberTool();
+            tool = RibberTool; // указываем на рабочий ластик
             doc.SetTool(tool);
         }
 
@@ -240,8 +299,10 @@ namespace PaintApp
         {
             tsbUndo.Enabled = tsmiUndo.Enabled = UndoRedoManager.Instance.CanUndo;
             tsbRedo.Enabled = tsmiRedo.Enabled = UndoRedoManager.Instance.CanRedo;
-            tsbPencilColor.Visible = tsbPencilThickness.Visible = tsbPencil.Checked;
+            tsslSize.Text = $"{doc.Layer.Width}, {doc.Layer.Height}пкс";
             tsbSave.Enabled = tsmiSave.Enabled = doc.Changed;
+            tsbPencilColor.Visible = tsbPencilThickness.Visible = tsbPencil.Checked;
+            tsbRibberColor.Visible = tsbRibberThickness.Visible = tsbRibber.Checked;
         }
 
         /// <summary>
@@ -277,36 +338,12 @@ namespace PaintApp
             {
                 foreach (var item in tsbPencilThickness.DropDownItems.Cast<ToolStripMenuItem>())
                     item.Checked = false;
-                if (sender == tsmiThicknessOne)
-                {
-                    tsmiThicknessOne.Checked = true;
-                    PenTool.PenStyle.Width = 1;
-                }
-                if (sender == tsmiThicknessTwo)
-                {
-                    tsmiThicknessTwo.Checked = true;
-                    PenTool.PenStyle.Width = 2;
-                }
-                if (sender == tsmiThicknessThree)
-                {
-                    tsmiThicknessThree.Checked = true;
-                    PenTool.PenStyle.Width = 3;
-                }
-                if (sender == tsmiThicknessFour)
-                {
-                    tsmiThicknessFour.Checked = true;
-                    PenTool.PenStyle.Width = 4;
-                }
-                if (sender == tsmiThicknessFive)
-                {
-                    tsmiThicknessFive.Checked = true;
-                    PenTool.PenStyle.Width = 5;
-                }
-                if (sender == tsmiThicknessSix)
-                {
-                    tsmiThicknessSix.Checked = true;
-                    PenTool.PenStyle.Width = 6;
-                }
+                var mi = sender as ToolStripMenuItem;
+                if (mi.Tag == null) return;
+                int value;
+                if (!int.TryParse(mi.Tag.ToString(), out value)) return;
+                mi.Checked = true;
+                PenTool.PenStyle.Width = value;
             }
         }
 
@@ -374,10 +411,18 @@ namespace PaintApp
                 if (dlg.ShowDialog() != DialogResult.OK) return;
                 fileName = dlg.FileName;
             }
-            doc.Layer.Save(fileName, GetFileFormat(fileName));
-            doc.Changed = false;
-            UndoRedoManager.Instance.ClearHistory();
-            Text = caption + @" - " + fileName;
+            try
+            {
+                doc.Layer.Save(fileName, GetFileFormat(fileName));
+                doc.Changed = false;
+                UndoRedoManager.Instance.ClearHistory();
+                Text = caption + @" - " + fileName;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Ошибка при сохранении файла", 
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void tsmiSaveAs_Click(object sender, EventArgs e)
@@ -389,10 +434,18 @@ namespace PaintApp
             dlg.FileName = fileName;
             if (dlg.ShowDialog() != DialogResult.OK) return;
             fileName = dlg.FileName;
-            doc.Layer.Save(fileName, GetFileFormat(fileName));
-            doc.Changed = false;
-            UndoRedoManager.Instance.ClearHistory();
-            Text = caption + @" - " + fileName;
+            try
+            {
+                doc.Layer.Save(fileName, GetFileFormat(fileName));
+                doc.Changed = false;
+                UndoRedoManager.Instance.ClearHistory();
+                Text = caption + @" - " + fileName;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Ошибка при сохранении файла", 
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         /// <summary>
@@ -414,6 +467,46 @@ namespace PaintApp
             using (var gr = Graphics.FromImage(doc.Layer))
                 gr.DrawImage(bitmap, Point.Empty);
             workArea.Invalidate();
+        }
+
+        private void tsmiRibberThicknessFour_Click(object sender, EventArgs e)
+        {
+            if (tool is RibberTool)
+            {
+                foreach (var item in tsbRibberThickness.DropDownItems.Cast<ToolStripMenuItem>())
+                    item.Checked = false;
+                var mi = sender as ToolStripMenuItem;
+                if (mi.Tag == null) return;
+                int value;
+                if (!int.TryParse(mi.Tag.ToString(), out value)) return;
+                mi.Checked = true;
+                RibberTool.RibberStyle.Width = value;
+            }
+        }
+
+        private void tsbRibberThickness_ButtonClick(object sender, EventArgs e)
+        {
+            tsbRibberThickness.ShowDropDown();
+        }
+
+        private void tsbRibberColor_Click(object sender, EventArgs e)
+        {
+            ribberColorDialog.Color = RibberTool.RibberStyle.Color;
+            if (ribberColorDialog.ShowDialog() == DialogResult.OK)
+            {
+                Color selColor = ribberColorDialog.Color;
+                foreach (var item in ribberColorDialog.CustomColors)
+                    if (item != 16777215 && !DrawUtils.FindColor(Color.FromArgb(item)))
+                        DrawUtils.AddCustomColor(selColor);
+                RibberTool.RibberStyle.Color = selColor;
+                UpdateRibberToolColorImage();
+            }
+
+        }
+
+        private void workArea_MouseLeave(object sender, EventArgs e)
+        {
+            tsslLocation.Text = "";
         }
     }
 }

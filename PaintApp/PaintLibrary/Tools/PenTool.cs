@@ -33,8 +33,13 @@ namespace PaintLibrary.Tools
         {
             //draw line over Leyer
             if (points.Count > 1)
-                using (var pen = new Pen(Color.FromArgb((int)(PenStyle.Hardness * 255), PenStyle.Color), PenStyle.Width))
+                using (var pen = new Pen(Color.FromArgb((int)(PenStyle.Opacity * 255), PenStyle.Color), PenStyle.Width))
+                {
+                    pen.LineJoin = LineJoin.Round;
+                    pen.StartCap = LineCap.Round;
+                    pen.EndCap = LineCap.Round;
                     gr.DrawLines(pen, points.ToArray());
+                }
         }
 
         internal override void Apply(Document doc)
@@ -44,10 +49,10 @@ namespace PaintLibrary.Tools
             //draw line on Layer 
             using (var gr = Graphics.FromImage(doc.Layer))
             {
-                gr.CompositingMode = CompositingMode.SourceOver;
-                gr.CompositingQuality = CompositingQuality.HighQuality;
-                gr.SmoothingMode = SmoothingMode.HighQuality;
-                gr.PixelOffsetMode = PixelOffsetMode.HighQuality;
+                gr.CompositingMode = CompositingMode.SourceCopy;
+                gr.CompositingQuality = CompositingQuality.HighSpeed;
+                gr.SmoothingMode = SmoothingMode.HighSpeed;
+                gr.PixelOffsetMode = PixelOffsetMode.HighSpeed;
                 RenderLine(gr);
             }
 
