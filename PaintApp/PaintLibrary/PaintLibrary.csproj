@@ -47,6 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ActionCommand.cs" />
     <Compile Include="Services\DrawUtils.cs" />
+    <Compile Include="Services\LineRenderer.cs" />
     <Compile Include="Services\NamedColor.cs" />
     <Compile Include="Services\ObjectCloner.cs" />
     <Compile Include="Services\UndoableCommand.cs" />

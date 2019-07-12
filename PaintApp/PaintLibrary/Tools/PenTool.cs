@@ -1,4 +1,5 @@
 ﻿using PaintLibrary.Core;
+using PaintLibrary.Services;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -33,13 +34,27 @@ namespace PaintLibrary.Tools
         {
             //draw line over Leyer
             if (points.Count > 1)
+            {
                 using (var pen = new Pen(Color.FromArgb((int)(PenStyle.Opacity * 255), PenStyle.Color), PenStyle.Width))
                 {
                     pen.LineJoin = LineJoin.Round;
                     pen.StartCap = LineCap.Round;
                     pen.EndCap = LineCap.Round;
-                    gr.DrawLines(pen, points.ToArray());
+
+                    //gr.DrawLines(pen, points.ToArray());
+
+                    var ps = points.ToArray();
+                    if (ps.Length > 2)
+                        for (var i = 1; i < ps.Length; i++)
+                        {
+                            var p1 = ps[i - 1];
+                            var p2 = ps[i];
+                            gr.DrawImage(new LineRenderer(p1.X, p1.Y, p2.X, p2.Y, PenStyle.Width).Render(PenStyle.Color, 90), 0, 0);
+                        }
+
+
                 }
+            }
         }
 
         internal override void Apply(Document doc)

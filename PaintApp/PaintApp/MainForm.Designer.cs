@@ -93,13 +93,14 @@
             this.tsbRibberColor = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator11 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.tsslLocation = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsslSize = new System.Windows.Forms.ToolStripStatusLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.workArea = new PaintApp.WorkAreaUserControl();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.penсilColorDialog = new System.Windows.Forms.ColorDialog();
             this.ribberColorDialog = new System.Windows.Forms.ColorDialog();
-            this.tsslLocation = new System.Windows.Forms.ToolStripStatusLabel();
-            this.tsslSize = new System.Windows.Forms.ToolStripStatusLabel();
+            this.tsmiPencilThicknessFifty = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.tsTools.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -536,7 +537,8 @@
             this.tsmiPencilThicknessThree,
             this.tsmiPencilThicknessFour,
             this.tsmiPencilThicknessFive,
-            this.tsmiPencilThicknessSix});
+            this.tsmiPencilThicknessSix,
+            this.tsmiPencilThicknessFifty});
             this.tsbPencilThickness.Image = ((System.Drawing.Image)(resources.GetObject("tsbPencilThickness.Image")));
             this.tsbPencilThickness.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.tsbPencilThickness.Name = "tsbPencilThickness";
@@ -550,7 +552,7 @@
             this.tsmiPencilThicknessOne.CheckState = System.Windows.Forms.CheckState.Checked;
             this.tsmiPencilThicknessOne.Image = ((System.Drawing.Image)(resources.GetObject("tsmiPencilThicknessOne.Image")));
             this.tsmiPencilThicknessOne.Name = "tsmiPencilThicknessOne";
-            this.tsmiPencilThicknessOne.Size = new System.Drawing.Size(102, 22);
+            this.tsmiPencilThicknessOne.Size = new System.Drawing.Size(152, 22);
             this.tsmiPencilThicknessOne.Tag = "1";
             this.tsmiPencilThicknessOne.Text = "1 пкс";
             this.tsmiPencilThicknessOne.Click += new System.EventHandler(this.tsmiThicknessOne_Click);
@@ -559,7 +561,7 @@
             // 
             this.tsmiPencilThicknessTwo.Image = ((System.Drawing.Image)(resources.GetObject("tsmiPencilThicknessTwo.Image")));
             this.tsmiPencilThicknessTwo.Name = "tsmiPencilThicknessTwo";
-            this.tsmiPencilThicknessTwo.Size = new System.Drawing.Size(102, 22);
+            this.tsmiPencilThicknessTwo.Size = new System.Drawing.Size(152, 22);
             this.tsmiPencilThicknessTwo.Tag = "2";
             this.tsmiPencilThicknessTwo.Text = "2 пкс";
             this.tsmiPencilThicknessTwo.Click += new System.EventHandler(this.tsmiThicknessOne_Click);
@@ -568,7 +570,7 @@
             // 
             this.tsmiPencilThicknessThree.Image = ((System.Drawing.Image)(resources.GetObject("tsmiPencilThicknessThree.Image")));
             this.tsmiPencilThicknessThree.Name = "tsmiPencilThicknessThree";
-            this.tsmiPencilThicknessThree.Size = new System.Drawing.Size(102, 22);
+            this.tsmiPencilThicknessThree.Size = new System.Drawing.Size(152, 22);
             this.tsmiPencilThicknessThree.Tag = "3";
             this.tsmiPencilThicknessThree.Text = "3 пкс";
             this.tsmiPencilThicknessThree.Click += new System.EventHandler(this.tsmiThicknessOne_Click);
@@ -577,7 +579,7 @@
             // 
             this.tsmiPencilThicknessFour.Image = ((System.Drawing.Image)(resources.GetObject("tsmiPencilThicknessFour.Image")));
             this.tsmiPencilThicknessFour.Name = "tsmiPencilThicknessFour";
-            this.tsmiPencilThicknessFour.Size = new System.Drawing.Size(102, 22);
+            this.tsmiPencilThicknessFour.Size = new System.Drawing.Size(152, 22);
             this.tsmiPencilThicknessFour.Tag = "4";
             this.tsmiPencilThicknessFour.Text = "4 пкс";
             this.tsmiPencilThicknessFour.Click += new System.EventHandler(this.tsmiThicknessOne_Click);
@@ -586,7 +588,7 @@
             // 
             this.tsmiPencilThicknessFive.Image = ((System.Drawing.Image)(resources.GetObject("tsmiPencilThicknessFive.Image")));
             this.tsmiPencilThicknessFive.Name = "tsmiPencilThicknessFive";
-            this.tsmiPencilThicknessFive.Size = new System.Drawing.Size(102, 22);
+            this.tsmiPencilThicknessFive.Size = new System.Drawing.Size(152, 22);
             this.tsmiPencilThicknessFive.Tag = "5";
             this.tsmiPencilThicknessFive.Text = "5 пкс";
             this.tsmiPencilThicknessFive.Click += new System.EventHandler(this.tsmiThicknessOne_Click);
@@ -595,7 +597,7 @@
             // 
             this.tsmiPencilThicknessSix.Image = ((System.Drawing.Image)(resources.GetObject("tsmiPencilThicknessSix.Image")));
             this.tsmiPencilThicknessSix.Name = "tsmiPencilThicknessSix";
-            this.tsmiPencilThicknessSix.Size = new System.Drawing.Size(102, 22);
+            this.tsmiPencilThicknessSix.Size = new System.Drawing.Size(152, 22);
             this.tsmiPencilThicknessSix.Tag = "6";
             this.tsmiPencilThicknessSix.Text = "6 пкс";
             this.tsmiPencilThicknessSix.Click += new System.EventHandler(this.tsmiThicknessOne_Click);
@@ -630,7 +632,7 @@
             // 
             this.tsmiRibberThicknessFour.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRibberThicknessFour.Image")));
             this.tsmiRibberThicknessFour.Name = "tsmiRibberThicknessFour";
-            this.tsmiRibberThicknessFour.Size = new System.Drawing.Size(152, 22);
+            this.tsmiRibberThicknessFour.Size = new System.Drawing.Size(108, 22);
             this.tsmiRibberThicknessFour.Tag = "4";
             this.tsmiRibberThicknessFour.Text = "4 пкс";
             this.tsmiRibberThicknessFour.Click += new System.EventHandler(this.tsmiRibberThicknessFour_Click);
@@ -639,7 +641,7 @@
             // 
             this.tsmiRibberThicknessSix.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRibberThicknessSix.Image")));
             this.tsmiRibberThicknessSix.Name = "tsmiRibberThicknessSix";
-            this.tsmiRibberThicknessSix.Size = new System.Drawing.Size(152, 22);
+            this.tsmiRibberThicknessSix.Size = new System.Drawing.Size(108, 22);
             this.tsmiRibberThicknessSix.Tag = "6";
             this.tsmiRibberThicknessSix.Text = "6 пкс";
             this.tsmiRibberThicknessSix.Click += new System.EventHandler(this.tsmiRibberThicknessFour_Click);
@@ -648,7 +650,7 @@
             // 
             this.tsmiRibberThicknessEight.Image = ((System.Drawing.Image)(resources.GetObject("tsmiRibberThicknessEight.Image")));
             this.tsmiRibberThicknessEight.Name = "tsmiRibberThicknessEight";
-            this.tsmiRibberThicknessEight.Size = new System.Drawing.Size(152, 22);
+            this.tsmiRibberThicknessEight.Size = new System.Drawing.Size(108, 22);
             this.tsmiRibberThicknessEight.Tag = "8";
             this.tsmiRibberThicknessEight.Text = "8 пкс";
             this.tsmiRibberThicknessEight.Click += new System.EventHandler(this.tsmiRibberThicknessFour_Click);
@@ -656,7 +658,7 @@
             // tsmiRibberThicknessTen
             // 
             this.tsmiRibberThicknessTen.Name = "tsmiRibberThicknessTen";
-            this.tsmiRibberThicknessTen.Size = new System.Drawing.Size(152, 22);
+            this.tsmiRibberThicknessTen.Size = new System.Drawing.Size(108, 22);
             this.tsmiRibberThicknessTen.Tag = "10";
             this.tsmiRibberThicknessTen.Text = "10 пкс";
             this.tsmiRibberThicknessTen.Click += new System.EventHandler(this.tsmiRibberThicknessFour_Click);
@@ -688,6 +690,22 @@
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // tsslLocation
+            // 
+            this.tsslLocation.AutoSize = false;
+            this.tsslLocation.Image = ((System.Drawing.Image)(resources.GetObject("tsslLocation.Image")));
+            this.tsslLocation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tsslLocation.Name = "tsslLocation";
+            this.tsslLocation.Size = new System.Drawing.Size(100, 17);
+            // 
+            // tsslSize
+            // 
+            this.tsslSize.AutoSize = false;
+            this.tsslSize.Image = ((System.Drawing.Image)(resources.GetObject("tsslSize.Image")));
+            this.tsslSize.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.tsslSize.Name = "tsslSize";
+            this.tsslSize.Size = new System.Drawing.Size(100, 17);
+            // 
             // panel1
             // 
             this.panel1.AutoScroll = true;
@@ -717,21 +735,13 @@
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // tsslLocation
+            // tsmiPencilThicknessFifty
             // 
-            this.tsslLocation.AutoSize = false;
-            this.tsslLocation.Image = ((System.Drawing.Image)(resources.GetObject("tsslLocation.Image")));
-            this.tsslLocation.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tsslLocation.Name = "tsslLocation";
-            this.tsslLocation.Size = new System.Drawing.Size(100, 17);
-            // 
-            // tsslSize
-            // 
-            this.tsslSize.AutoSize = false;
-            this.tsslSize.Image = ((System.Drawing.Image)(resources.GetObject("tsslSize.Image")));
-            this.tsslSize.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.tsslSize.Name = "tsslSize";
-            this.tsslSize.Size = new System.Drawing.Size(100, 17);
+            this.tsmiPencilThicknessFifty.Name = "tsmiPencilThicknessFifty";
+            this.tsmiPencilThicknessFifty.Size = new System.Drawing.Size(152, 22);
+            this.tsmiPencilThicknessFifty.Tag = "50";
+            this.tsmiPencilThicknessFifty.Text = "50 пкс";
+            this.tsmiPencilThicknessFifty.Click += new System.EventHandler(this.tsmiThicknessOne_Click);
             // 
             // MainForm
             // 
@@ -830,6 +840,7 @@
         private System.Windows.Forms.ColorDialog ribberColorDialog;
         private System.Windows.Forms.ToolStripStatusLabel tsslLocation;
         private System.Windows.Forms.ToolStripStatusLabel tsslSize;
+        private System.Windows.Forms.ToolStripMenuItem tsmiPencilThicknessFifty;
     }
 }
 
